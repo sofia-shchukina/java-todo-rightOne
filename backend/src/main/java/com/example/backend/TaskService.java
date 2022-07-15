@@ -30,4 +30,8 @@ public class TaskService {
     public void deleteTaskByID(int id) {
         taskRepo.deleteTaskByID(id);
     }
+
+    public void advanceStatus(int id) {
+        taskRepo.advanceStatus(id);
+    }
 }

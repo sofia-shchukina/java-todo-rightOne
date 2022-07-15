@@ -1,15 +1,12 @@
 package com.example.backend;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TaskRepo {
-    Map<Integer, Task> tasks= new HashMap<>();
+    Map<Integer, Task> tasks = new HashMap<>();
 
     public void addNewTask(Task task) {
-        tasks.put(task.getId(),task);
+        tasks.put(task.getId(), task);
     }
 
     @Override
@@ -19,24 +16,47 @@ public class TaskRepo {
                 '}';
     }
 
-    public List <Task> showAllTasks() {
+    public List<Task> showAllTasks() {
         List<Task> list = new ArrayList<>();
-        for (Map.Entry<Integer, Task> entry: tasks.entrySet()
-             ) {
+        for (Map.Entry<Integer, Task> entry : tasks.entrySet()
+        ) {
             list.add(entry.getValue());
         }
         return list;
     }
 
     public Task showTaskByID(int id) {
-        return tasks.get(id);
+        try {return tasks.get(id);}
+        catch (Exception e){ throw
+            new NoSuchElementException("There is no element with this id");
+        }
     }
 
     public void changeStatus(int id, Task task) {
-        tasks.put(id, task);
+        try {tasks.put(id, task);}
+        catch (Exception e){ throw
+                new NoSuchElementException("There is no element with this id");
+        }
     }
 
     public void deleteTaskByID(int id) {
-        tasks.remove(id);
+        try {tasks.remove(id);}
+        catch (Exception e){ throw
+                new NoSuchElementException("There is no element with this id");
+        }
+    }
+
+    public void advanceStatus(int id) {
+        try {Task taskToUpdate = tasks.get(id);
+            if (taskToUpdate.getStatus().equals(Status.OPEN)) {
+                taskToUpdate.setStatus(Status.IN_PROGRESS);
+            }
+            else if (taskToUpdate.getStatus().equals(Status.IN_PROGRESS)){
+                taskToUpdate.setStatus(Status.DONE);
+            }}
+        catch (Exception e){ throw
+                new NoSuchElementException("There is no element with this id");
+        }
+
     }
 }
